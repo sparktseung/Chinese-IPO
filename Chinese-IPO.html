@@ -13094,12 +13094,261 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<p>About two years ago, I started to have some extra money for investing. After a few trial-and-errors, I have resorted to regular purchase of a low-fee Exchange Traded Fund (ETF) tracking the US market index - the cost of "beating the market" just seems too high, and an average of 7~8% per year is already a very decent return.</p>
+<h2 id="Introduction">Introduction<a class="anchor-link" href="#Introduction">&#182;</a></h2><p>About two years ago, I started to have some extra money for investing. After a few trial-and-errors, I have resorted to regular purchase of a low-fee Exchange Traded Fund (ETF) tracking the US market index - the cost of "beating the market" just seems too high, and an average of 7~8% per year is already a very decent return.</p>
 <p>I have been all content with that until a friend of mine mentioned the unbelievably high return on purchasing the Initial Public Offerings (IPO) of Chinese stocks. He claimed that, if you are lucky enough to be assigned some units during an IPO, the return on the first day of public trading is quite significant (e.g. 100%+). However, it is generally quite difficult to obtain those IPOs in the first place, so it is almost like buying a lottery.</p>
-<p>Unfamiliar with, and intentially staying away from, the Chinese stock market, I was quite suspicious at first, but a quick search on the Internet has my confidence shaken. Therefore, being a student in statistics, I naturally started to dig into a pool of data, trying to find out if one can make some big money from Chinese stock IPOs.</p>
+<p>Unfamiliar with, and intentially staying away from, the Chinese stock market, I was quite suspicious at first, but a quick search on the Internet has my confidence shaken. Therefore, being a student in statistics, I naturally started to dig into a pool of data, trying to find out if one can make some big money from Chinese stock IPOs. More specifically, I would like to see if one can make profits by obtaining stocks from IPOs and then selling them shortly after the public trading starts.</p>
 
 </div>
 </div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Getting-the-Data">Getting the Data<a class="anchor-link" href="#Getting-the-Data">&#182;</a></h2><p>There are not a lot of data source available for the issue prices of IPOs in the Chinese market. The best I can find is the <code>akshare</code> package in Python, which in turn pulls IPO data from <a href="http://data.eastmoney.com/xg/xg/dxsyl.html">eastmoney</a>, a Chinese stock broker.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[1]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load required packages</span>
+<span class="kn">import</span> <span class="nn">akshare</span> <span class="k">as</span> <span class="nn">ak</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[2]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># IPO data for stocks traded on Shanghai Stock Exchange</span>
+<span class="c1"># Mostly blue-chip stocks</span>
+<span class="n">ipo_shzb_df</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_em_dxsyl</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="s2">&quot;上海主板&quot;</span><span class="p">)</span>
+<span class="c1"># IPO data for stocks traded on Shenzhen Stock Exchange</span>
+<span class="c1"># Mostly smaller companies</span>
+<span class="n">ipo_szzx_df</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_em_dxsyl</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="s2">&quot;中小板&quot;</span><span class="p">)</span>
+<span class="n">ipo_szcy_df</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_em_dxsyl</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="s2">&quot;创业板&quot;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stderr output_text">
+<pre>100%|██████████| 15/15 [00:06&lt;00:00,  2.41it/s]
+100%|██████████| 13/13 [00:06&lt;00:00,  1.93it/s]
+100%|██████████| 17/17 [00:07&lt;00:00,  2.21it/s]
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>All three dataframes are very similar in terms of structure, so I will only show the data from Shanghai.</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ipo_shzb_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[3]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>股票代码</th>
+      <th>股票简称</th>
+      <th>发行价</th>
+      <th>最新价</th>
+      <th>网上发行中签率</th>
+      <th>网上有效申购股数</th>
+      <th>网上有效申购户数</th>
+      <th>网上超额认购倍数</th>
+      <th>网下配售中签率</th>
+      <th>网下有效申购股数</th>
+      <th>网下有效申购户数</th>
+      <th>网下配售认购倍数</th>
+      <th>总发行数量</th>
+      <th>开盘溢价</th>
+      <th>首日涨幅</th>
+      <th>打新收益</th>
+      <th>上市日期</th>
+      <th>市场</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>605358</td>
+      <td>立昂微</td>
+      <td>4.92</td>
+      <td></td>
+      <td>0.03197</td>
+      <td>114224888000</td>
+      <td>15990041</td>
+      <td>3127.56</td>
+      <td>0.00446855</td>
+      <td>90812500000</td>
+      <td>9112</td>
+      <td>22378.63</td>
+      <td>40580000</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2020-09-11</td>
+      <td>sh</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>605009</td>
+      <td>豪悦护理</td>
+      <td>62.26</td>
+      <td></td>
+      <td>0.02382</td>
+      <td>100758868000</td>
+      <td>15783007</td>
+      <td>4197.76</td>
+      <td>0.01456494</td>
+      <td>18311100000</td>
+      <td>9316</td>
+      <td>6865.8</td>
+      <td>26670000</td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td>2020-09-11</td>
+      <td>sh</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>605003</td>
+      <td>众望布艺</td>
+      <td>25.75</td>
+      <td>33.37</td>
+      <td>0.02346</td>
+      <td>84382582000</td>
+      <td>15347203</td>
+      <td>4261.75</td>
+      <td>0.01675539</td>
+      <td>13130100000</td>
+      <td>8208</td>
+      <td>5968.23</td>
+      <td>22000000</td>
+      <td>0.4400</td>
+      <td>0.4400</td>
+      <td>0.01</td>
+      <td>2020-09-08</td>
+      <td>sh</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>601702</td>
+      <td>华峰铝业</td>
+      <td>3.69</td>
+      <td>7.06</td>
+      <td>0.08734</td>
+      <td>257234929000</td>
+      <td>15063983</td>
+      <td>1144.96</td>
+      <td>0.0166057</td>
+      <td>150327900000</td>
+      <td>9346</td>
+      <td>6022.03</td>
+      <td>249630000</td>
+      <td>0.2005</td>
+      <td>0.4390</td>
+      <td></td>
+      <td>2020-09-07</td>
+      <td>sh</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>605006</td>
+      <td>山东玻纤</td>
+      <td>3.84</td>
+      <td>8.91</td>
+      <td>0.04813</td>
+      <td>186996036000</td>
+      <td>15894809</td>
+      <td>2077.73</td>
+      <td>0.00788046</td>
+      <td>126896100000</td>
+      <td>9114</td>
+      <td>12689.61</td>
+      <td>100000000</td>
+      <td>0.2005</td>
+      <td>0.4401</td>
+      <td></td>
+      <td>2020-09-03</td>
+      <td>sh</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
 </div>
     </div>
   </div>
