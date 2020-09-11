@@ -13104,44 +13104,12 @@ div#notebook {
 <div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
 </div><div class="inner_cell">
 <div class="text_cell_render border-box-sizing rendered_html">
-<h2 id="Getting-the-Data">Getting the Data<a class="anchor-link" href="#Getting-the-Data">&#182;</a></h2><p>There are not a lot of data source available for the issue prices of IPOs in the Chinese market. The best I can find is the <code>akshare</code> package in Python, which in turn pulls IPO data from <a href="http://data.eastmoney.com/xg/xg/dxsyl.html">eastmoney</a>, a Chinese stock broker.</p>
+<h2 id="Getting-the-Data">Getting the Data<a class="anchor-link" href="#Getting-the-Data">&#182;</a></h2><p>There are not a lot of data source available for the issue prices of IPOs in the Chinese market. The best I can find is the <code>akshare</code> package in Python, which in turn pulls IPO data from <a href="http://data.eastmoney.com/xg/xg/dxsyl.html">eastmoney</a>, a Chinese stock broker. They have three datasets of IPO, <code>sh</code> for (mostly) bluechip stocks traded on the Shanghai Stock Exchange, and <code>zxb</code>/<code>cyb</code> for smaller companies traded on the Shenzhen Stock Exchange. The first few rows are shown below.</p>
 
 </div>
 </div>
 </div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[1]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Load required packages</span>
-<span class="kn">import</span> <span class="nn">akshare</span> <span class="k">as</span> <span class="nn">ak</span>
-<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[2]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># IPO data for stocks traded on Shanghai Stock Exchange</span>
-<span class="c1"># Mostly blue-chip stocks</span>
-<span class="n">ipo_shzb_df</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_em_dxsyl</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="s2">&quot;上海主板&quot;</span><span class="p">)</span>
-<span class="c1"># IPO data for stocks traded on Shenzhen Stock Exchange</span>
-<span class="c1"># Mostly smaller companies</span>
-<span class="n">ipo_szzx_df</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_em_dxsyl</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="s2">&quot;中小板&quot;</span><span class="p">)</span>
-<span class="n">ipo_szcy_df</span> <span class="o">=</span> <span class="n">ak</span><span class="o">.</span><span class="n">stock_em_dxsyl</span><span class="p">(</span><span class="n">market</span><span class="o">=</span><span class="s2">&quot;创业板&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
+<div class="cell border-box-sizing code_cell rendered celltag_no_input">
 
 <div class="output_wrapper">
 <div class="output">
@@ -13149,48 +13117,7 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stderr output_text">
-<pre>100%|██████████| 15/15 [00:06&lt;00:00,  2.41it/s]
-100%|██████████| 13/13 [00:06&lt;00:00,  1.93it/s]
-100%|██████████| 17/17 [00:07&lt;00:00,  2.21it/s]
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>All three dataframes are very similar in terms of structure, so I will only show the data from Shanghai.</p>
-
-</div>
-</div>
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">ipo_shzb_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[3]:</div>
+    <div class="prompt output_prompt">Out[4]:</div>
 
 
 
@@ -13237,9 +13164,9 @@ div#notebook {
     <tr>
       <th>0</th>
       <td>605358</td>
-      <td>立昂微</td>
+      <td>N立昂微</td>
       <td>4.92</td>
-      <td></td>
+      <td>7.08</td>
       <td>0.03197</td>
       <td>114224888000</td>
       <td>15990041</td>
@@ -13249,8 +13176,8 @@ div#notebook {
       <td>9112</td>
       <td>22378.63</td>
       <td>40580000</td>
-      <td></td>
-      <td></td>
+      <td>0.1992</td>
+      <td>0.4390</td>
       <td></td>
       <td>2020-09-11</td>
       <td>sh</td>
@@ -13258,9 +13185,9 @@ div#notebook {
     <tr>
       <th>1</th>
       <td>605009</td>
-      <td>豪悦护理</td>
+      <td>N豪悦</td>
       <td>62.26</td>
-      <td></td>
+      <td>89.65</td>
       <td>0.02382</td>
       <td>100758868000</td>
       <td>15783007</td>
@@ -13270,8 +13197,8 @@ div#notebook {
       <td>9316</td>
       <td>6865.8</td>
       <td>26670000</td>
-      <td></td>
-      <td></td>
+      <td>0.2000</td>
+      <td>0.4399</td>
       <td></td>
       <td>2020-09-11</td>
       <td>sh</td>
@@ -13281,7 +13208,7 @@ div#notebook {
       <td>605003</td>
       <td>众望布艺</td>
       <td>25.75</td>
-      <td>33.37</td>
+      <td>31.38</td>
       <td>0.02346</td>
       <td>84382582000</td>
       <td>15347203</td>
@@ -13302,7 +13229,7 @@ div#notebook {
       <td>601702</td>
       <td>华峰铝业</td>
       <td>3.69</td>
-      <td>7.06</td>
+      <td>7.77</td>
       <td>0.08734</td>
       <td>257234929000</td>
       <td>15063983</td>
@@ -13314,7 +13241,7 @@ div#notebook {
       <td>249630000</td>
       <td>0.2005</td>
       <td>0.4390</td>
-      <td></td>
+      <td>0.09</td>
       <td>2020-09-07</td>
       <td>sh</td>
     </tr>
@@ -13323,7 +13250,7 @@ div#notebook {
       <td>605006</td>
       <td>山东玻纤</td>
       <td>3.84</td>
-      <td>8.91</td>
+      <td>9.80</td>
       <td>0.04813</td>
       <td>186996036000</td>
       <td>15894809</td>
@@ -13349,6 +13276,114 @@ div#notebook {
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>After a quick view of the website, it seems that they have IPO data starting from year 2010. I will combine the three datasets, and change the column names in English. Since the datasets are frequently updated, we will focus on the decade of 2010-2019 only. The combined and cleaned data set has 1967 records, and the variables are described as follows.</p>
+<table>
+<thead><tr>
+<th style="text-align:left">Chinese</th>
+<th style="text-align:left">English</th>
+<th style="text-align:left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">股票代码</td>
+<td style="text-align:left">ticker</td>
+<td style="text-align:left">Ticker of the stock</td>
+</tr>
+<tr>
+<td style="text-align:left">股票简称</td>
+<td style="text-align:left">name</td>
+<td style="text-align:left">Name of the company</td>
+</tr>
+<tr>
+<td style="text-align:left">发行价</td>
+<td style="text-align:left">price_issue</td>
+<td style="text-align:left">Issue price (in CNY) of IPO, i.e. how much you pay per share before it goes public</td>
+</tr>
+<tr>
+<td style="text-align:left">最新价</td>
+<td style="text-align:left">price_latest</td>
+<td style="text-align:left">Latest trading price (in CNY)</td>
+</tr>
+<tr>
+<td style="text-align:left">网上发行中签率</td>
+<td style="text-align:left">prob_online</td>
+<td style="text-align:left">Probability (in %) of successfully getting some IPO stocks, online application</td>
+</tr>
+<tr>
+<td style="text-align:left">网上有效申购股数</td>
+<td style="text-align:left">sub_size_online</td>
+<td style="text-align:left">Number of shares requested by potential IPO buyers, online application</td>
+</tr>
+<tr>
+<td style="text-align:left">网上有效申购户数</td>
+<td style="text-align:left">subs_online</td>
+<td style="text-align:left">Number of potential IPO buyers, online application</td>
+</tr>
+<tr>
+<td style="text-align:left">网上超额认购倍数</td>
+<td style="text-align:left">over_online</td>
+<td style="text-align:left">How many people are competing for one successful online application, i.e. 1/prob_online</td>
+</tr>
+<tr>
+<td style="text-align:left">网下发行中签率</td>
+<td style="text-align:left">prob_offline</td>
+<td style="text-align:left">Probability (in %) of successfully getting some IPO stocks, offline application</td>
+</tr>
+<tr>
+<td style="text-align:left">网下有效申购股数</td>
+<td style="text-align:left">sub_size_offline</td>
+<td style="text-align:left">Number of shares requested by potential IPO buyers, offline application</td>
+</tr>
+<tr>
+<td style="text-align:left">网下有效申购户数</td>
+<td style="text-align:left">subs_offline</td>
+<td style="text-align:left">Number of potential IPO buyers, offline application</td>
+</tr>
+<tr>
+<td style="text-align:left">网下超额认购倍数</td>
+<td style="text-align:left">subs_offline</td>
+<td style="text-align:left">How many people are competing for one successful offline application, i.e. 1/prob_offline</td>
+</tr>
+<tr>
+<td style="text-align:left">总发行数量</td>
+<td style="text-align:left">size_total</td>
+<td style="text-align:left">Total number of shares issued in IPO</td>
+</tr>
+<tr>
+<td style="text-align:left">开盘溢价</td>
+<td style="text-align:left">list_premium</td>
+<td style="text-align:left">Premium (in decimal) of first-day trading, i.e. (first-day price / IPO price) - 1</td>
+</tr>
+<tr>
+<td style="text-align:left">首日涨幅</td>
+<td style="text-align:left">return_firstday</td>
+<td style="text-align:left">Price increase (in decimal) of first-day trading, i.e. (close/open) - 1 on the first day</td>
+</tr>
+<tr>
+<td style="text-align:left">打新收益</td>
+<td style="text-align:left">return_ipo</td>
+<td style="text-align:left">Return on IPO (according to some formula by eastmoney)</td>
+</tr>
+<tr>
+<td style="text-align:left">上市日期</td>
+<td style="text-align:left">list_date</td>
+<td style="text-align:left">Date of IPO</td>
+</tr>
+<tr>
+<td style="text-align:left">市场</td>
+<td style="text-align:left">market</td>
+<td style="text-align:left">Market of IPO</td>
+</tr>
+</tbody>
+</table>
+
+</div>
+</div>
 </div>
     </div>
   </div>
