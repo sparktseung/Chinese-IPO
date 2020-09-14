@@ -1,7 +1,4 @@
----
-layout: default
-title: Can you make big money on Chinese stock IPO?
----
+# Can you make big money on Chinese stock IPO?
 
 **Author**: [Spark Tseung](https://sparktseung.com)
 
